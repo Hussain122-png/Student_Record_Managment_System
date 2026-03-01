@@ -1,6 +1,6 @@
 # Student Record Management System
 
-A system demonstrating object-oriented programming, file
+A student record management system demonstrating object-oriented programming, file
 handling, data processing, and real-time WebSocket communication — built entirely on
 POSIX primitives with **no external libraries**.
 
