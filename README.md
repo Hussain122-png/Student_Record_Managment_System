@@ -66,7 +66,7 @@ Measured on the included 10-record dataset
 
 1. **CSV rewrite on every mutation** 
 2. **One thread per client** – Works well up to ~1,000 concurrent connections;
-   beyond that, use `epoll`-based async I/O 
+   beyond that, `epoll`-based async I/O  could be used
 3. **JSON parsing** – The minimal string-search parser is O(n) per key.
 
 
