@@ -50,3 +50,33 @@ The CLI client:
 - Provides an interactive menu for CRUD operations
 - Every operation is broadcast live to all connected clients
 
+
+## Performance Metrics
+
+Measured on the included 10-record dataset 
+
+| Operation                     | Time         |
+|-------------------------------|-------------|
+| Load & parse CSV (10 records) | ~0.11 ms     |
+| Sort (std::sort, 10 records)  | ~0.002 ms    |
+| Save CSV (10 records)         | ~0.07–0.20 ms|
+| Broadcast to 1 client         | ~0.01–0.06 ms|
+
+### Bottlenecks
+
+1. **CSV rewrite on every mutation** 
+2. **One thread per client** – Works well up to ~1,000 concurrent connections;
+   beyond that, use `epoll`-based async I/O 
+3. **JSON parsing** – The minimal string-search parser is O(n) per key.
+
+
+### Scalability Notes
+
+- The `StudentDB` uses `std::vector` with linear search for lookups; for 10,000+
+  records, an `std::unordered_map<int, Student>` would reduce `findById` from O(n)
+  to O(1).
+- The CSV parser is single-pass and streams line-by-line; it handles large files
+  without loading everything into memory first.
+
+
+
